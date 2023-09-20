@@ -14,4 +14,3 @@ dependencyResolutionManagement {
 }
 rootProject.name = "ADIK"
 include ':app'
-include ':adik-admin'
