@@ -216,8 +216,8 @@ class OnBoardingItems(
     companion object{
         fun getData(): List<OnBoardingItems>{
             return listOf(
-                OnBoardingItems(R.drawable.attendance_illustration, R.string.on_boarding_1_screen_title, R.string.on_boarding_1_screen_description),
-                OnBoardingItems(R.drawable.location_illustration, R.string.on_boarding_2_screen_title, R.string.on_boarding_2_screen_description),
+                OnBoardingItems(R.drawable.attendance_illustration, R.string.screen_on_boarding_1_title, R.string.screen_on_boarding_1_description),
+                OnBoardingItems(R.drawable.location_illustration, R.string.screen_on_boarding_2_title, R.string.screen_on_boarding_2_description),
             )
         }
     }
