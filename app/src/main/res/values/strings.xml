@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">ADIK</string>
+    <string name="on_boarding_1_screen_title">Manajemen Absensi Karyawan</string>
+    <string name="on_boarding_1_screen_description">Kelola dan monitor absensi karyawan dengan mudah. Memungkinkan perusahaan memantau secara langsung catatan kehadiran setiap karyawan melalui aplikasi.</string>
+    <string name="on_boarding_2_screen_title">Absensi Digital dengan Geo Fencing</string>
+    <string name="on_boarding_2_screen_description">Aplikasi kami dilengkapi dengan fitur Geo Fencing yang memungkinkan karyawan dapat dengan mudah absen melalui smartphone saat berada di area kantor.</string>
 </resources>
