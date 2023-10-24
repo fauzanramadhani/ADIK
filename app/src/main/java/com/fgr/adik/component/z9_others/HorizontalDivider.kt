@@ -1,4 +1,4 @@
-package com.fgr.adik.component.others
+package com.fgr.adik.component.z9_others
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Divider

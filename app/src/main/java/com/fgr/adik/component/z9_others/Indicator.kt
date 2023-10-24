@@ -1,4 +1,4 @@
-package com.fgr.adik.component.others
+package com.fgr.adik.component.z9_others
 
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState

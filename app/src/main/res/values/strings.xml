@@ -12,6 +12,14 @@
     -->
 
     <!--
+    S-On Login Screen
+    -->
+    <string name="screen_login_title">Silahkan Masuk ke Akun Anda</string>
+    <!--
+    E-On Login Screen
+    -->
+
+    <!--
     S-Component
     -->
     <string name="button_help">Bantuan</string>

@@ -1,4 +1,4 @@
-package com.fgr.adik.component.button
+package com.fgr.adik.component_core.button
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope

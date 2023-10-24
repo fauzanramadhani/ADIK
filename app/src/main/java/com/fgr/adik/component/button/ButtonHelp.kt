@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.fgr.adik.R
+import com.fgr.adik.component_core.button.ButtonOutlinedBase
 import com.fgr.adik.ui.theme.ADIKTheme
 
 @Composable

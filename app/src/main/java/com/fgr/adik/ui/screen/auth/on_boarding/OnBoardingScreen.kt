@@ -31,8 +31,8 @@ import com.fgr.adik.component.button.ButtonLoginWithGoogle
 import com.fgr.adik.component.button.ButtonPrimary
 import com.fgr.adik.component.button.ButtonSecondary
 import com.fgr.adik.component.navbar.NavBarPrimary
-import com.fgr.adik.component.others.HorizontalDiv
-import com.fgr.adik.component.others.Indicator
+import com.fgr.adik.component.z9_others.HorizontalDiv
+import com.fgr.adik.component.z9_others.Indicator
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
@@ -62,7 +62,8 @@ fun OnBoardingScreen(
                 .padding(
                     start = 24.dp,
                     end = 24.dp,
-                    top = paddingValues.calculateTopPadding() + 24.dp
+                    top = paddingValues.calculateTopPadding() + 24.dp,
+                    bottom = 24.dp
                 )
         ) {
             HorizontalPager(
@@ -108,7 +109,7 @@ fun OnBoardingItem(items: OnBoardingItems) {
     ) {
         Image(
             painter = painterResource(id = items.image),
-            contentDescription = "Image1",
+            contentDescription = null,
             modifier = Modifier.padding(start = 50.dp, end = 50.dp)
         )
 
