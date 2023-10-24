@@ -24,7 +24,7 @@ fun BaseNavBar(
         modifier = Modifier
             .fillMaxWidth()
             .background(color = backgroundColor)
-            .padding(24.dp)
+            .padding(horizontal = 24.dp, vertical = 24.dp)
     ) {
         content()
     }

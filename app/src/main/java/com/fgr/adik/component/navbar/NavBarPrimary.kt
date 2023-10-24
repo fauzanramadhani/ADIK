@@ -2,7 +2,6 @@ package com.fgr.adik.component.navbar
 
 import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.fgr.adik.R
@@ -18,7 +17,6 @@ fun NavBarPrimary(
         Image(
             painter = painterResource(id = R.drawable.icon_adik),
             contentDescription = "",
-            modifier = Modifier
         )
         ButtonHelp(
             enabled = supportButtonEnabled,

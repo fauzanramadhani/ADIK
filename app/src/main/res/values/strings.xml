@@ -15,8 +15,19 @@
     S-Component
     -->
     <string name="button_help">Bantuan</string>
+    <string name="button_sign_in_with_google">Lanjutkan dengan Google</string>
     <!--
     E-Component
+    -->
+
+    <!--
+    S-Word
+    -->
+    <string name="or">Atau</string>
+    <string name="register">Daftar</string>
+    <string name="login">Masuk</string>
+    <!--
+    E-Word
     -->
 
 </resources>

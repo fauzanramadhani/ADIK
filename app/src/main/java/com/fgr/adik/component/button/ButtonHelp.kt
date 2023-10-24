@@ -3,6 +3,7 @@ package com.fgr.adik.component.button
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -20,7 +21,9 @@ fun ButtonHelp(
     enabled: Boolean = true,
     onClick: () -> Unit = {},
 ) {
-    ButtonSecondaryBase(
+    ButtonOutlinedBase(
+        modifier = Modifier
+            .height(36.dp),
         enabled = enabled,
         onClick = onClick
     ) {
