@@ -1,4 +1,4 @@
-package com.fgr.adik.component.text_field
+package com.fgr.adik.component_core.text_field
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions

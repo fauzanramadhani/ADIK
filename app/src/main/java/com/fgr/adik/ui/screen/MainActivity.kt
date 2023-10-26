@@ -21,7 +21,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ADIKTheme {
-                NavGraph(navHostController = rememberNavController())
+                val navHostController = rememberNavController()
+                NavGraph(navHostController = navHostController)
             }
         }
     }

@@ -15,17 +15,22 @@
     S-On Login Screen
     -->
     <string name="screen_login_title">Silahkan Masuk ke Akun Anda</string>
+    <string name="screen_login_password_confirmation_label">Konfirmasi Password</string>
+    <string name="screen_login_not_have_an_account">Belum punya akun?</string>
+    <string name="screen_login_forgot_password">Lupa sandi?</string>
+    <string name="screen_login_reset_password">Reset Password</string>
     <!--
     E-On Login Screen
     -->
 
     <!--
-    S-Component
+    S-Build in Component
     -->
     <string name="button_help">Bantuan</string>
     <string name="button_sign_in_with_google">Lanjutkan dengan Google</string>
+    <string name="supporting_text_error_max_char">Maksimal %s karakter</string>
     <!--
-    E-Component
+    E-Build in Component
     -->
 
     <!--
@@ -35,7 +40,7 @@
     <string name="register">Daftar</string>
     <string name="login">Masuk</string>
     <string name="email">Email</string>
-    <string name="password">Password</string>
+    <string name="password">Kata Sandi</string>
     <!--
     E-Word
     -->

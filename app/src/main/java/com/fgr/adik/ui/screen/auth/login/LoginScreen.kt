@@ -2,8 +2,11 @@ package com.fgr.adik.ui.screen.auth.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -11,12 +14,14 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,7 +34,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.fgr.adik.R
+import com.fgr.adik.component.button.ButtonPrimary
 import com.fgr.adik.component.navbar.NavBarSecondary
+import com.fgr.adik.component.text_field.TextFieldPassword
 import com.fgr.adik.component.text_field.TextFieldPrimary
 import com.fgr.adik.ui.theme.ADIKTheme
 
@@ -38,20 +45,52 @@ import com.fgr.adik.ui.theme.ADIKTheme
 fun LoginScreen(
     navHostController: NavHostController,
 ) {
-    var emailTextState by remember {
+    var stateEmailText by rememberSaveable {
         mutableStateOf("")
     }
-    var emailErrorState by remember {
+    var stateEmailError by rememberSaveable {
         mutableStateOf(false)
     }
-    var emailErrorTextState by remember {
+    var stateEmailErrorText by rememberSaveable {
         mutableStateOf("")
+    }
+    var statePasswordText by rememberSaveable {
+        mutableStateOf("")
+    }
+    var statePasswordVisibility by rememberSaveable {
+        mutableStateOf(false)
+    }
+    var statePasswordError by rememberSaveable {
+        mutableStateOf(false)
+    }
+    var statePasswordErrorText by rememberSaveable {
+        mutableStateOf("")
+    }
+    var statePasswordConfirmationText by rememberSaveable {
+        mutableStateOf("")
+    }
+    var statePasswordConfirmationVisibility by rememberSaveable {
+        mutableStateOf(false)
+    }
+    var statePasswordConfirmationError by rememberSaveable {
+        mutableStateOf(false)
+    }
+    var statePasswordConfirmationErrorText by rememberSaveable {
+        mutableStateOf("")
+    }
+    var loginButtonEnabledState by rememberSaveable {
+        mutableStateOf(true)
     }
     val context = LocalContext.current
 
     Scaffold(
         topBar = {
-            NavBarSecondary(stringResource(id = R.string.login))
+            NavBarSecondary(
+                title = stringResource(id = R.string.login),
+                onBackButtonClick = {
+                    navHostController.navigateUp()
+                }
+            )
         }
     ) { paddingValues ->
         Column(
@@ -76,23 +115,106 @@ fun LoginScreen(
                 modifier = Modifier
                     .fillMaxWidth(),
                 text = stringResource(id = R.string.screen_login_title),
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurface,
+                style = typography.bodyLarge,
+                color = colorScheme.onSurface,
                 textAlign = TextAlign.Center
             )
             TextFieldPrimary(
                 label = stringResource(id = R.string.email),
-                value = emailTextState,
+                value = stateEmailText,
                 onValueChange = { value ->
-                    if (value.length < 10) {
-                        emailTextState = value
+                    if (value.length <= 32) {
+                        stateEmailText = value
+                        stateEmailError = false
+                    } else {
+                        stateEmailError = true
+                        stateEmailErrorText =
+                            context.getString(R.string.supporting_text_error_max_char, "32")
                     }
                 },
-                error = emailErrorState,
-                errorText = emailErrorTextState,
+                error = stateEmailError,
+                errorText = stateEmailErrorText,
                 modifier = Modifier
                     .fillMaxWidth()
             )
+            TextFieldPassword(
+                label = stringResource(id = R.string.password),
+                value = statePasswordText,
+                onValueChange = { value ->
+                    if (value.length <= 32) {
+                        statePasswordText = value
+                        statePasswordError = false
+                    } else {
+                        statePasswordError = true
+                        statePasswordErrorText =
+                            context.getString(R.string.supporting_text_error_max_char, "32")
+                    }
+                },
+                error = statePasswordError,
+                errorText = statePasswordErrorText,
+                visibility = statePasswordVisibility,
+                onVisibilityChange = {
+                    statePasswordVisibility = !statePasswordVisibility
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
+            Column(
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+
+                    ) {
+                    Text(
+                        text = stringResource(id = R.string.screen_login_not_have_an_account),
+                        style = typography.bodyMedium
+                    )
+                    Text(
+                        text = stringResource(id = R.string.register),
+                        style = typography.labelLarge,
+                        modifier = Modifier
+                            .clickable {
+                                // TODO
+                            }
+                    )
+                }
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    modifier = Modifier
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.screen_login_forgot_password),
+                        style = typography.bodyMedium
+                    )
+                    Text(
+                        text = stringResource(id = R.string.screen_login_reset_password),
+                        style = typography.labelLarge,
+                        modifier = Modifier
+                            .clickable {
+                                // TODO
+                            }
+                    )
+                }
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Spacer(modifier = Modifier.weight(0.5f))
+                ButtonPrimary(
+                    enabled = loginButtonEnabledState && stateEmailText.isNotEmpty() && statePasswordText.isNotEmpty(),
+                    text = stringResource(id = R.string.register),
+                    modifier = Modifier.weight(0.5f),
+                    onClick = {
+                        // TODO
+                    }
+                )
+            }
         }
     }
 }
