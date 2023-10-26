@@ -24,8 +24,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.fgr.adik.R
 import com.fgr.adik.component.button.ButtonLoginWithGoogle
 import com.fgr.adik.component.button.ButtonPrimary
@@ -33,6 +35,9 @@ import com.fgr.adik.component.button.ButtonSecondary
 import com.fgr.adik.component.navbar.NavBarPrimary
 import com.fgr.adik.component.z9_others.HorizontalDiv
 import com.fgr.adik.component.z9_others.Indicator
+import com.fgr.adik.navigation.NavRoute
+import com.fgr.adik.ui.theme.ADIKTheme
+import com.fgr.adik.utils.navigateSingle
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
@@ -88,10 +93,10 @@ fun OnBoardingScreen(
             // Bottom Section
             BottomSection(
                 onRegisterClicked = {
-                    //TODO
+                    navHostController.navigateSingle(NavRoute.RegisterScreen)
                 },
                 onLoginClicked = {
-                    //TODO
+                    navHostController.navigateSingle(NavRoute.LoginScreen)
                 },
                 onLoginGoogleClicked = {
                     //TODO
@@ -207,5 +212,13 @@ class OnBoardingItems(
                 ),
             )
         }
+    }
+}
+
+@Preview
+@Composable
+fun OnBoardingScreenPreview() {
+    ADIKTheme {
+        OnBoardingScreen(rememberNavController())
     }
 }

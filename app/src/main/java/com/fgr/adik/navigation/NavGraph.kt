@@ -4,7 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.fgr.adik.ui.screen.auth.login.LoginScreen
 import com.fgr.adik.ui.screen.auth.on_boarding.OnBoardingScreen
+import com.fgr.adik.ui.screen.auth.register.RegisterScreen
 
 @Composable
 fun NavGraph(
@@ -19,6 +21,16 @@ fun NavGraph(
             route = NavRoute.OnBoardingScreen.route,
         ) {
             OnBoardingScreen(navHostController = navHostController)
+        }
+        composable(
+            route = NavRoute.RegisterScreen.route,
+        ) {
+            RegisterScreen(navHostController = navHostController)
+        }
+        composable(
+            route = NavRoute.LoginScreen.route,
+        ) {
+            LoginScreen(navHostController = navHostController)
         }
     }
 }

@@ -34,6 +34,8 @@
     <string name="or">Atau</string>
     <string name="register">Daftar</string>
     <string name="login">Masuk</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
     <!--
     E-Word
     -->
