@@ -37,7 +37,7 @@ import com.fgr.adik.component.z9_others.HorizontalDiv
 import com.fgr.adik.component.z9_others.Indicator
 import com.fgr.adik.navigation.NavRoute
 import com.fgr.adik.ui.theme.ADIKTheme
-import com.fgr.adik.utils.navigateSingle
+import com.fgr.adik.repository.utils.navigateSingle
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
