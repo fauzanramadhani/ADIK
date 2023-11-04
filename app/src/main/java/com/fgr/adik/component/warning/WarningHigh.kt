@@ -42,7 +42,7 @@ fun WarningHigh(
 
 @Preview
 @Composable
-fun WarningHigh() {
+fun WarningHighPreview() {
     ADIKTheme {
         WarningHigh(
             message = "This is high warning",

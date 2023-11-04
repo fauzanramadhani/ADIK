@@ -1,5 +1,7 @@
 package com.fgr.adik.ui.screen.auth.on_boarding
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -17,8 +19,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -26,6 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.fgr.adik.R
@@ -33,11 +39,12 @@ import com.fgr.adik.component.button.ButtonLoginWithGoogle
 import com.fgr.adik.component.button.ButtonPrimary
 import com.fgr.adik.component.button.ButtonSecondary
 import com.fgr.adik.component.navbar.NavBarPrimary
+import com.fgr.adik.component.z9_others.DialogLoading
 import com.fgr.adik.component.z9_others.HorizontalDiv
 import com.fgr.adik.component.z9_others.Indicator
 import com.fgr.adik.navigation.NavRoute
+import com.fgr.adik.repository.utils.navigateToTop
 import com.fgr.adik.ui.theme.ADIKTheme
-import com.fgr.adik.repository.utils.navigateSingle
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
@@ -45,63 +52,99 @@ import com.google.accompanist.pager.rememberPagerState
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun OnBoardingScreen(
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    onBoardingViewModel: OnBoardingViewModel = hiltViewModel()
 ) {
-    val items = remember {
-        OnBoardingItems.getData()
-    }
-    val scope = rememberCoroutineScope()
-    val pageState = rememberPagerState()
-
-    Scaffold(
-        topBar = {
-            NavBarPrimary()
+    if (onBoardingViewModel.currentUser != null) {
+//        if (onBoardingViewModel.isEmailVerified) {
+//            navHostController.navigateToTop(NavRoute.DashboardScreen)
+//        } else {
+//
+//        }
+        navHostController.navigateToTop(NavRoute.DashboardScreen)
+    } else {
+        val items = remember {
+            OnBoardingItems.getData()
         }
-    ) { paddingValues ->
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.surface)
-                .verticalScroll(rememberScrollState())
-                .padding(
-                    start = 24.dp,
-                    end = 24.dp,
-                    top = paddingValues.calculateTopPadding() + 24.dp,
-                    bottom = 24.dp
-                )
-        ) {
-            HorizontalPager(
-                count = items.size,
-                state = pageState,
+
+        val pageState = rememberPagerState()
+        var loadingState by rememberSaveable {
+            mutableStateOf(false)
+        }
+
+        if (loadingState) {
+            DialogLoading()
+        }
+
+        val googleSignInLauncher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.StartActivityForResult(), onResult = { result ->
+                result.data?.let {
+                    onBoardingViewModel.handleGoogleSignInResult(
+                        data = it,
+                        callback = { success ->
+                            loadingState = false
+                            if (success) {
+                                navHostController.navigateToTop(NavRoute.DashboardScreen)
+                            }
+                        }
+                    )
+                }
+            }
+        )
+
+        Scaffold(
+            topBar = {
+                NavBarPrimary()
+            }
+        ) { paddingValues ->
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
-                    .height(280.dp)
-            ) { page ->
-                OnBoardingItem(items = items[page])
-            }
-            Spacer(modifier = Modifier.padding(vertical = 24.dp))
-            // Indicators
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalAlignment = Alignment.CenterVertically,
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.surface)
+                    .verticalScroll(rememberScrollState())
+                    .padding(
+                        start = 24.dp,
+                        end = 24.dp,
+                        top = paddingValues.calculateTopPadding() + 24.dp,
+                        bottom = 24.dp
+                    )
             ) {
-                repeat(items.size) {
-                    Indicator(isSelected = it == pageState.currentPage)
+                HorizontalPager(
+                    count = items.size,
+                    state = pageState,
+                    modifier = Modifier
+                        .height(280.dp)
+                ) { page ->
+                    OnBoardingItem(items = items[page])
                 }
+                Spacer(modifier = Modifier.padding(vertical = 24.dp))
+                // Indicators
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    repeat(items.size) {
+                        Indicator(isSelected = it == pageState.currentPage)
+                    }
+                }
+                Spacer(modifier = Modifier.padding(vertical = 24.dp))
+                // Bottom Section
+                BottomSection(
+                    onRegisterClicked = {
+                        navHostController.navigateToTop(NavRoute.RegisterScreen)
+                    },
+                    onLoginClicked = {
+                        navHostController.navigateToTop(NavRoute.LoginScreen)
+                    },
+                    onLoginGoogleClicked = {
+                        loadingState = true
+                        googleSignInLauncher.launch(
+                            onBoardingViewModel.loginWithGoogle()
+                        )
+                    }
+                )
             }
-            Spacer(modifier = Modifier.padding(vertical = 24.dp))
-            // Bottom Section
-            BottomSection(
-                onRegisterClicked = {
-                    navHostController.navigateSingle(NavRoute.RegisterScreen)
-                },
-                onLoginClicked = {
-                    navHostController.navigateSingle(NavRoute.LoginScreen)
-                },
-                onLoginGoogleClicked = {
-                    //TODO
-                }
-            )
         }
     }
 }

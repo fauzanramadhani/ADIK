@@ -42,7 +42,7 @@ import com.fgr.adik.component.text_field.TextFieldPassword
 import com.fgr.adik.component.text_field.TextFieldPrimary
 import com.fgr.adik.navigation.NavRoute
 import com.fgr.adik.repository.utils.isEmailInvalid
-import com.fgr.adik.repository.utils.navigateSingle
+import com.fgr.adik.repository.utils.navigateToTop
 import com.fgr.adik.ui.theme.ADIKTheme
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
@@ -185,12 +185,10 @@ fun LoginScreen(
                         style = typography.labelLarge,
                         modifier = Modifier
                             .clickable {
-                                navHostController.navigateSingle(
-                                    destination = NavRoute.RegisterScreen,
-                                    callback = {
-                                        keyboardController?.hide()
-                                        focusController.clearFocus(true)
-                                    }
+//                                keyboardController?.hide()
+//                                focusController.clearFocus(true)
+                                navHostController.navigateToTop(
+                                    destination = NavRoute.EmailVerificationScreen
                                 )
                             }
                     )
@@ -209,7 +207,7 @@ fun LoginScreen(
                         style = typography.labelLarge,
                         modifier = Modifier
                             .clickable {
-                                // TODO
+                                navHostController.navigateToTop(NavRoute.ForgotPasswordScreen)
                             }
                     )
                 }

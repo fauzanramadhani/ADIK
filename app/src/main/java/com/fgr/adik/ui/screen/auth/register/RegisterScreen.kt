@@ -32,6 +32,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.fgr.adik.R
@@ -41,13 +42,14 @@ import com.fgr.adik.component.text_field.TextFieldPassword
 import com.fgr.adik.component.text_field.TextFieldPrimary
 import com.fgr.adik.navigation.NavRoute
 import com.fgr.adik.repository.utils.isEmailInvalid
-import com.fgr.adik.repository.utils.navigateSingle
+import com.fgr.adik.repository.utils.navigateToTop
 import com.fgr.adik.ui.theme.ADIKTheme
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun RegisterScreen(
     navHostController: NavHostController,
+    registerViewModel: RegisterViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -88,6 +90,7 @@ fun RegisterScreen(
     var loginButtonEnabledState by rememberSaveable {
         mutableStateOf(true)
     }
+
     Scaffold(
         topBar = {
             NavBarSecondary(
@@ -201,12 +204,10 @@ fun RegisterScreen(
                     style = MaterialTheme.typography.labelLarge,
                     modifier = Modifier
                         .clickable {
-                            navHostController.navigateSingle(
-                                destination = NavRoute.LoginScreen,
-                                callback = {
-                                    keyboardController?.hide()
-                                    focusController.clearFocus(true)
-                                }
+                            keyboardController?.hide()
+                            focusController.clearFocus(true)
+                            navHostController.navigateToTop(
+                                destination = NavRoute.EmailVerificationScreen
                             )
                         }
                 )
