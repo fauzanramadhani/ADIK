@@ -58,6 +58,8 @@ class EmailVerificationViewModel
     }
 
     init {
-        sendEmailVerification()
+        if (firebaseCurrentUser()?.isEmailVerified == false) {
+            sendEmailVerification()
+        }
     }
 }

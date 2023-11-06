@@ -220,7 +220,6 @@ fun LoginScreen(
                     onClick = {
                         keyboardController?.hide()
                         focusController.clearFocus(true)
-                        loginButtonEnabledState = false
                         when {
                             (stateEmailText.isEmailInvalid()) -> {
                                 stateEmailError = true
