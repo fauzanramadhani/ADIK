@@ -1,10 +1,8 @@
-package com.fgr.adik.data.model
+package com.fgr.adik.data.response
 
 import com.google.gson.annotations.SerializedName
 
-data class ModelProfile(
-    @field:SerializedName("_id")
-    val id: String,
+data class ProfileResponse(
 
     @field:SerializedName("imageProfileUrl")
     val imageProfileUrl: String,
@@ -20,7 +18,4 @@ data class ModelProfile(
 
     @field:SerializedName("createdAt")
     val createdAt: String,
-
-    @field:SerializedName("updatedAt")
-    val updatedAt: String,
 )

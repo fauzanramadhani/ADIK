@@ -40,10 +40,12 @@ import com.fgr.adik.component.button.ButtonPrimary
 import com.fgr.adik.component.navbar.NavBarSecondary
 import com.fgr.adik.component.text_field.TextFieldPassword
 import com.fgr.adik.component.text_field.TextFieldPrimary
+import com.fgr.adik.component.z9_others.DialogLoading
 import com.fgr.adik.navigation.NavRoute
-import com.fgr.adik.repository.utils.isEmailInvalid
-import com.fgr.adik.repository.utils.navigateToTop
+import com.fgr.adik.utils.isEmailInvalid
+import com.fgr.adik.utils.navigateToTop
 import com.fgr.adik.ui.theme.ADIKTheme
+import com.fgr.adik.utils.Toast
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
@@ -87,8 +89,14 @@ fun RegisterScreen(
     var statePasswordConfirmationErrorText by rememberSaveable {
         mutableStateOf("")
     }
-    var loginButtonEnabledState by rememberSaveable {
+    var stateRegisterButtonEnabled by rememberSaveable {
         mutableStateOf(true)
+    }
+    var loadingState by rememberSaveable {
+        mutableStateOf(false)
+    }
+    if (loadingState) {
+        DialogLoading()
     }
 
     Scaffold(
@@ -207,7 +215,7 @@ fun RegisterScreen(
                             keyboardController?.hide()
                             focusController.clearFocus(true)
                             navHostController.navigateToTop(
-                                destination = NavRoute.EmailVerificationScreen
+                                destination = NavRoute.LoginScreen
                             )
                         }
                 )
@@ -218,37 +226,49 @@ fun RegisterScreen(
             ) {
                 Spacer(modifier = Modifier.weight(0.5f))
                 ButtonPrimary(
-                    enabled = loginButtonEnabledState && stateEmailText.isNotEmpty() && statePasswordText.isNotEmpty() && statePasswordConfirmationText.isNotEmpty(),
+                    enabled = stateRegisterButtonEnabled && stateEmailText.isNotEmpty() && statePasswordText.isNotEmpty() && statePasswordConfirmationText.isNotEmpty(),
                     text = stringResource(id = R.string.register),
-                    modifier = Modifier.weight(0.5f),
-                    onClick = {
-                        keyboardController?.hide()
-                        focusController.clearFocus(true)
-                        when {
-                            (stateEmailText.isEmailInvalid()) -> {
-                                stateEmailError = true
-                                stateEmailErrorText =
-                                    context.getString(R.string.supporting_text_invalid_email)
-                            }
+                    modifier = Modifier.weight(0.5f)
+                ) {
+                    keyboardController?.hide()
+                    focusController.clearFocus(true)
+                    when {
+                        (stateEmailText.isEmailInvalid()) -> {
+                            stateEmailError = true
+                            stateEmailErrorText =
+                                context.getString(R.string.supporting_text_invalid_email)
+                        }
 
-                            (statePasswordText.length < 12) -> {
-                                statePasswordError = true
-                                statePasswordErrorText =
-                                    context.getString(R.string.supporting_text_less_than_12_password)
-                            }
+                        (statePasswordText.length < 12) -> {
+                            statePasswordError = true
+                            statePasswordErrorText =
+                                context.getString(R.string.supporting_text_less_than_12_password)
+                        }
 
-                            statePasswordText != statePasswordConfirmationText -> {
-                                statePasswordConfirmationError = true
-                                statePasswordConfirmationErrorText =
-                                    context.getString(R.string.supporting_text_invalid_password_confirmation)
-                            }
+                        statePasswordText != statePasswordConfirmationText -> {
+                            statePasswordConfirmationError = true
+                            statePasswordConfirmationErrorText =
+                                context.getString(R.string.supporting_text_invalid_password_confirmation)
+                        }
 
-                            else -> {
-                                // TODO
+                        else -> {
+                            stateRegisterButtonEnabled = false
+                            loadingState = true
+                            registerViewModel.registerWithEmail(
+                                stateEmailText,
+                                statePasswordText
+                            ) { success, message ->
+                                Toast(context,message).short()
+                                loadingState = false
+                                if (success) {
+                                    navHostController.navigateToTop(NavRoute.EmailVerificationScreen)
+                                } else {
+                                    stateRegisterButtonEnabled = true
+                                }
                             }
                         }
                     }
-                )
+                }
             }
         }
     }

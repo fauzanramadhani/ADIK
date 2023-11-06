@@ -33,6 +33,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.fgr.adik.R
@@ -40,16 +41,20 @@ import com.fgr.adik.component.button.ButtonPrimary
 import com.fgr.adik.component.navbar.NavBarSecondary
 import com.fgr.adik.component.text_field.TextFieldPassword
 import com.fgr.adik.component.text_field.TextFieldPrimary
+import com.fgr.adik.component.z9_others.DialogLoading
 import com.fgr.adik.navigation.NavRoute
-import com.fgr.adik.repository.utils.isEmailInvalid
-import com.fgr.adik.repository.utils.navigateToTop
 import com.fgr.adik.ui.theme.ADIKTheme
+import com.fgr.adik.utils.Toast
+import com.fgr.adik.utils.isEmailInvalid
+import com.fgr.adik.utils.navigateToTop
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun LoginScreen(
     navHostController: NavHostController,
+    loginViewModel: LoginViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusController = LocalFocusManager.current
     var stateEmailText by rememberSaveable {
@@ -73,22 +78,15 @@ fun LoginScreen(
     var statePasswordErrorText by rememberSaveable {
         mutableStateOf("")
     }
-    var statePasswordConfirmationText by rememberSaveable {
-        mutableStateOf("")
-    }
-    var statePasswordConfirmationVisibility by rememberSaveable {
-        mutableStateOf(false)
-    }
-    var statePasswordConfirmationError by rememberSaveable {
-        mutableStateOf(false)
-    }
-    var statePasswordConfirmationErrorText by rememberSaveable {
-        mutableStateOf("")
-    }
     var loginButtonEnabledState by rememberSaveable {
         mutableStateOf(true)
     }
-    val context = LocalContext.current
+    var loadingState by rememberSaveable {
+        mutableStateOf(false)
+    }
+    if (loadingState) {
+        DialogLoading()
+    }
 
     Scaffold(
         topBar = {
@@ -185,11 +183,9 @@ fun LoginScreen(
                         style = typography.labelLarge,
                         modifier = Modifier
                             .clickable {
-//                                keyboardController?.hide()
-//                                focusController.clearFocus(true)
-                                navHostController.navigateToTop(
-                                    destination = NavRoute.EmailVerificationScreen
-                                )
+                                navHostController.navigateToTop(NavRoute.RegisterScreen)
+                                keyboardController?.hide()
+                                focusController.clearFocus(true)
                             }
                     )
                 }
@@ -219,11 +215,12 @@ fun LoginScreen(
                 Spacer(modifier = Modifier.weight(0.5f))
                 ButtonPrimary(
                     enabled = loginButtonEnabledState && stateEmailText.isNotEmpty() && statePasswordText.isNotEmpty(),
-                    text = stringResource(id = R.string.register),
+                    text = stringResource(id = R.string.login),
                     modifier = Modifier.weight(0.5f),
                     onClick = {
                         keyboardController?.hide()
                         focusController.clearFocus(true)
+                        loginButtonEnabledState = false
                         when {
                             (stateEmailText.isEmailInvalid()) -> {
                                 stateEmailError = true
@@ -232,7 +229,20 @@ fun LoginScreen(
                             }
 
                             else -> {
-                                // TODO
+                                loadingState = true
+                                loginButtonEnabledState = false
+                                loginViewModel.login(
+                                    email = stateEmailText,
+                                    password = statePasswordText
+                                ) { success, message ->
+                                    Toast(context, message).short()
+                                    loadingState = false
+                                    if (success) {
+                                        navHostController.navigateToTop(NavRoute.EmailVerificationScreen)
+                                    } else {
+                                        loginButtonEnabledState = true
+                                    }
+                                }
                             }
                         }
                     }

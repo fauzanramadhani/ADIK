@@ -7,7 +7,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel
-    @Inject constructor(
-        authRepository: AuthRepository,
-    ) : ViewModel() {
+@Inject constructor(
+    private val authRepository: AuthRepository,
+) : ViewModel() {
+
+    fun login(
+        email: String,
+        password: String,
+        onComplete: (success: Boolean, message: String) -> Unit
+    ) = authRepository.loginWithEmail(email, password, onComplete)
 }

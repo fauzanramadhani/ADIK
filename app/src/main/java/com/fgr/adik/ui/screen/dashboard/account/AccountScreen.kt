@@ -14,7 +14,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.fgr.adik.component.button.ButtonPrimary
 import com.fgr.adik.navigation.NavRoute
-import com.fgr.adik.repository.utils.navigateToTop
+import com.fgr.adik.utils.navigateToTop
 
 @Composable
 fun AccountScreen(

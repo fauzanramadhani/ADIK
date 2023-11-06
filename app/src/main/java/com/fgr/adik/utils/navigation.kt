@@ -1,4 +1,4 @@
-package com.fgr.adik.repository.utils
+package com.fgr.adik.utils
 
 import androidx.navigation.NavHostController
 import com.fgr.adik.navigation.NavRoute

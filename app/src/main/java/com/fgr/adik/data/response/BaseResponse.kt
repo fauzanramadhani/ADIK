@@ -1,8 +1,8 @@
-package com.fgr.adik.data
+package com.fgr.adik.data.response
 
 import com.google.gson.annotations.SerializedName
 
-data class BaseResponse(
+data class BaseResponse<out T: Any?>(
 
 	@field:SerializedName("status")
 	val status: String,
@@ -11,5 +11,5 @@ data class BaseResponse(
 	val message: String,
 
 	@field:SerializedName("data")
-	val data: Any? = null,
+	val data: T? = null,
 )

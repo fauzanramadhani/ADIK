@@ -7,6 +7,8 @@
     <string name="screen_on_boarding_1_description">Kelola dan monitor absensi karyawan dengan mudah. Memungkinkan perusahaan memantau secara langsung catatan kehadiran setiap karyawan melalui aplikasi.</string>
     <string name="screen_on_boarding_2_title">Absensi Digital dengan Geo Fencing</string>
     <string name="screen_on_boarding_2_description">Aplikasi kami dilengkapi dengan fitur Geo Fencing yang memungkinkan karyawan dapat dengan mudah absen melalui smartphone saat berada di area kantor.</string>
+    <string name="screen_on_boarding_google_login_successfully">Berhasil masuk menggunakan akun google</string>
+    <string name="screen_on_boarding_google_login_canceled">Operasi dibatalkan</string>
     <!--
     E-On Boarding Screen
     -->
@@ -18,6 +20,8 @@
     <string name="screen_login_not_have_an_account">Belum punya akun?</string>
     <string name="screen_login_forgot_password">Lupa sandi?</string>
     <string name="screen_login_reset_password">Reset Password</string>
+    <string name="screen_login_failure">Email atau pasword anda salah</string>
+    <string name="screen_login_successfully">Berhasil masuk</string>
     <!--
     Login Screen
     -->
@@ -28,6 +32,7 @@
     <string name="screen_register_title">Silahkan Daftar Menggunakan Email Anda</string>
     <string name="screen_register_already_have_an_account">Sudah punya akun?</string>
     <string name="screen_register_password_confirmation_label">Konfirmasi Password</string>
+    <string name="screen_register_successfully">Berhasil membuat akun baru</string>
     <!--
     Register Screen
     -->
@@ -53,6 +58,9 @@
     <string name="screen_email_verification_still_not_get">Belum menerima email?</string>
     <string name="screen_email_verification_back_to_login">Kembali ke login?</string>
     <string name="screen_email_resend_button_text">Kirim Ulang</string>
+    <string name="screen_email_title_dialog_alert_logout">Konfirmasi Keluar Akun</string>
+    <string name="screen_email_message_dialog_alert_logout">Apakah anda yakin ingin keluar dari akun Anda?</string>
+    <string name="screen_email_email_verification_sent_successfully">Email verifikasi berhasil dikirim ke %s</string>
     <!--
     Email Verification Screen
     -->
@@ -92,6 +100,7 @@
     <string name="account">Akun</string>
     <string name="refresh">Segarkan</string>
     <string name="out">Keluar</string>
+    <string name="cancel">Batal</string>
     <!--
     E-Word
     -->

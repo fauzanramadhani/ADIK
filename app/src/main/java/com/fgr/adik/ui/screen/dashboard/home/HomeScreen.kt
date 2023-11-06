@@ -25,7 +25,7 @@ fun HomeScreen(
         modifier = Modifier.fillMaxSize()
     ) {
         Text(
-            text = "Home Screen",
+            text = "Home",
             style = MaterialTheme.typography.headlineSmall
         )
     }

@@ -1,4 +1,4 @@
-package com.fgr.adik.hilt
+package com.fgr.adik.hilt.app
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

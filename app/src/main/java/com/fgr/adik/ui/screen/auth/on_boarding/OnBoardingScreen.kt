@@ -26,6 +26,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -43,8 +44,9 @@ import com.fgr.adik.component.z9_others.DialogLoading
 import com.fgr.adik.component.z9_others.HorizontalDiv
 import com.fgr.adik.component.z9_others.Indicator
 import com.fgr.adik.navigation.NavRoute
-import com.fgr.adik.repository.utils.navigateToTop
+import com.fgr.adik.utils.navigateToTop
 import com.fgr.adik.ui.theme.ADIKTheme
+import com.fgr.adik.utils.Toast
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
@@ -55,33 +57,27 @@ fun OnBoardingScreen(
     navHostController: NavHostController,
     onBoardingViewModel: OnBoardingViewModel = hiltViewModel()
 ) {
-    if (onBoardingViewModel.currentUser != null) {
-//        if (onBoardingViewModel.isEmailVerified) {
-//            navHostController.navigateToTop(NavRoute.DashboardScreen)
-//        } else {
-//
-//        }
-        navHostController.navigateToTop(NavRoute.DashboardScreen)
+    val context = LocalContext.current
+    if (onBoardingViewModel.firebaseCurrentUser != null) {
+        navHostController.navigateToTop(NavRoute.EmailVerificationScreen)
     } else {
         val items = remember {
             OnBoardingItems.getData()
         }
-
         val pageState = rememberPagerState()
         var loadingState by rememberSaveable {
             mutableStateOf(false)
         }
-
         if (loadingState) {
             DialogLoading()
         }
-
         val googleSignInLauncher = rememberLauncherForActivityResult(
             contract = ActivityResultContracts.StartActivityForResult(), onResult = { result ->
                 result.data?.let {
                     onBoardingViewModel.handleGoogleSignInResult(
                         data = it,
-                        callback = { success ->
+                        onComplete = { success, message ->
+                            Toast(context, message).short()
                             loadingState = false
                             if (success) {
                                 navHostController.navigateToTop(NavRoute.DashboardScreen)
@@ -95,7 +91,7 @@ fun OnBoardingScreen(
         Scaffold(
             topBar = {
                 NavBarPrimary()
-            }
+            },
         ) { paddingValues ->
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,

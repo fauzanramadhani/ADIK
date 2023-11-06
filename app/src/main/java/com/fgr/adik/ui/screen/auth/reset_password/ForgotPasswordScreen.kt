@@ -37,7 +37,7 @@ import com.fgr.adik.component.button.ButtonPrimary
 import com.fgr.adik.component.navbar.NavBarSecondary
 import com.fgr.adik.component.text_field.TextFieldPrimary
 import com.fgr.adik.component.warning.WarningMedium
-import com.fgr.adik.repository.utils.isEmailInvalid
+import com.fgr.adik.utils.isEmailInvalid
 import com.fgr.adik.ui.theme.ADIKTheme
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)

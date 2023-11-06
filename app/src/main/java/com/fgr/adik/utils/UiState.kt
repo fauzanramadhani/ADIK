@@ -1,4 +1,4 @@
-package com.fgr.adik.repository.utils
+package com.fgr.adik.utils
 
 sealed class UiState<out T: Any?> {
 
