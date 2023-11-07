@@ -1,8 +1,8 @@
 package com.fgr.adik.component.navbar
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
@@ -22,19 +22,18 @@ import com.fgr.adik.ui.theme.ADIKTheme
 @Composable
 fun NavBarSecondary(
     title: String = "",
-    onBackButtonClicked: () -> Unit = {},
+    onBackButtonClick: () -> Unit = {},
     supportButtonShow: Boolean = true,
-    onSupportButtonClicked: () -> Unit = {}
+    onSupportButtonClick: () -> Unit = {}
 ) {
     NavBarBase(
-        modifier = Modifier
-            .padding(start = 12.dp, end = 24.dp, top = 16.dp, bottom = 24.dp)
+        paddingValues = PaddingValues(start = 12.dp, end = 24.dp)
     ) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = onBackButtonClicked) {
+            IconButton(onClick = onBackButtonClick) {
                 Icon(
                     modifier = Modifier
                         .size(48.dp),
@@ -50,7 +49,7 @@ fun NavBarSecondary(
         }
         if (supportButtonShow) {
             ButtonHelp(
-                onClick = onSupportButtonClicked
+                onClick = onSupportButtonClick
             )
         }
     }

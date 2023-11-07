@@ -7,25 +7,84 @@
     <string name="screen_on_boarding_1_description">Kelola dan monitor absensi karyawan dengan mudah. Memungkinkan perusahaan memantau secara langsung catatan kehadiran setiap karyawan melalui aplikasi.</string>
     <string name="screen_on_boarding_2_title">Absensi Digital dengan Geo Fencing</string>
     <string name="screen_on_boarding_2_description">Aplikasi kami dilengkapi dengan fitur Geo Fencing yang memungkinkan karyawan dapat dengan mudah absen melalui smartphone saat berada di area kantor.</string>
+    <string name="screen_on_boarding_google_login_successfully">Berhasil masuk menggunakan akun google</string>
+    <string name="screen_on_boarding_google_login_canceled">Operasi dibatalkan</string>
     <!--
     E-On Boarding Screen
     -->
 
     <!--
-    S-On Login Screen
+    Login Screen
     -->
     <string name="screen_login_title">Silahkan Masuk ke Akun Anda</string>
+    <string name="screen_login_not_have_an_account">Belum punya akun?</string>
+    <string name="screen_login_forgot_password">Lupa sandi?</string>
+    <string name="screen_login_reset_password">Reset Password</string>
+    <string name="screen_login_failure">Email atau pasword anda salah</string>
+    <string name="screen_login_successfully">Berhasil masuk</string>
     <!--
-    E-On Login Screen
+    Login Screen
     -->
 
     <!--
-    S-Component
+    Register Screen
+    -->
+    <string name="screen_register_title">Silahkan Daftar Menggunakan Email Anda</string>
+    <string name="screen_register_already_have_an_account">Sudah punya akun?</string>
+    <string name="screen_register_password_confirmation_label">Konfirmasi Password</string>
+    <string name="screen_register_successfully">Berhasil membuat akun baru</string>
+    <!--
+    Register Screen
+    -->
+
+    <!--
+    S-Forgot Password Screen
+    -->
+    <string name="screen_forgot_password_nav_title">Reset Kata Sandi</string>
+    <string name="screen_forgot_password_title">Silahkan Masukan Email Anda</string>
+    <string name="screen_forgot_password_warning_text">Kami akan mengirimkan email untuk mereset kata sandi Anda. Pastikan untuk memeriksa folder spam atau folder junk email Anda jika Anda tidak menemukan email kami.</string>
+    <string name="screen_forgot_password_send_email_reset_password">Kirim Email Reset Password</string>
+    <!--
+    Forgot Password Screen
+    -->
+
+    <!--
+    Email Verification Screen
+    -->
+    <string name="screen_email_verification_nav_title">Verifikasi</string>
+    <string name="screen_email_verification_title">Verifikasi akun anda</string>
+    <string name="screen_email_verification_description">Kami akan mengirimkan email untuk memverifikasi akun Anda. Pastikan untuk memeriksa folder spam atau folder junk email Anda jika Anda tidak menemukan email kami.</string>
+    <string name="screen_email_verification_is_already_verified">Sudah diverifikasi?</string>
+    <string name="screen_email_verification_still_not_get">Belum menerima email?</string>
+    <string name="screen_email_verification_back_to_login">Kembali ke login?</string>
+    <string name="screen_email_resend_button_text">Kirim Ulang</string>
+    <string name="screen_email_title_dialog_alert_logout">Konfirmasi Keluar Akun</string>
+    <string name="screen_email_message_dialog_alert_logout">Apakah anda yakin ingin keluar dari akun Anda?</string>
+    <string name="screen_email_email_verification_sent_successfully">Email verifikasi berhasil dikirim ke %s</string>
+    <!--
+    Email Verification Screen
+    -->
+
+    <!--
+    Home Screen
+    -->
+
+    <!--
+    Home Screen
+    -->
+
+    <!--
+    S-Build in Component
     -->
     <string name="button_help">Bantuan</string>
     <string name="button_sign_in_with_google">Lanjutkan dengan Google</string>
+    <string name="supporting_text_error_max_char">Maksimal %s karakter</string>
+    <string name="supporting_text_invalid_email">Email anda tidak valid</string>
+    <string name="supporting_text_less_than_12_password">Password minimal 12 karakter</string>
+    <string name="supporting_text_invalid_password_confirmation">Konfirmasi sandi anda salah</string>
+    <string name="loading_dialog_text">Please Wait</string>
     <!--
-    E-Component
+    E-Build in Component
     -->
 
     <!--
@@ -34,6 +93,14 @@
     <string name="or">Atau</string>
     <string name="register">Daftar</string>
     <string name="login">Masuk</string>
+    <string name="email">Email</string>
+    <string name="password">Kata Sandi</string>
+    <string name="home">Beranda</string>
+    <string name="office">Kantor</string>
+    <string name="account">Akun</string>
+    <string name="refresh">Segarkan</string>
+    <string name="out">Keluar</string>
+    <string name="cancel">Batal</string>
     <!--
     E-Word
     -->

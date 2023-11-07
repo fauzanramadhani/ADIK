@@ -9,4 +9,9 @@ const val E_ARGS_KEY = "e"
 sealed class NavRoute (val route: String) {
     object ROOT: NavRoute(route = "root")
     object OnBoardingScreen: NavRoute("on_boarding_screen")
+    object RegisterScreen: NavRoute("register_screen")
+    object LoginScreen: NavRoute("login_screen")
+    object ForgotPasswordScreen: NavRoute("forgot_password_screen")
+    object EmailVerificationScreen: NavRoute("email_verification_screen")
+    object DashboardScreen: NavRoute ("base_screen")
 }
