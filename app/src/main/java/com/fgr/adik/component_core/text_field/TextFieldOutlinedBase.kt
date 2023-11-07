@@ -13,6 +13,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 
@@ -32,10 +33,10 @@ fun TextFieldOutlinedBase(
     supportingText: @Composable (() -> Unit)? = null,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    keyboardActions: KeyboardActions = KeyboardActions.Default,
     singleLine: Boolean = false,
     maxLines: Int = Int.MAX_VALUE,
 ) {
+    val focus = LocalFocusManager.current
     OutlinedTextField(
         modifier = modifier,
         label = {
@@ -56,7 +57,9 @@ fun TextFieldOutlinedBase(
         supportingText = supportingText,
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions,
-        keyboardActions = keyboardActions,
+        keyboardActions = KeyboardActions(onDone = {
+            focus.clearFocus()
+        }),
         singleLine = singleLine,
         maxLines = maxLines
     )

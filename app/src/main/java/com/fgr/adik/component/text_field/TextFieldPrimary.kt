@@ -3,6 +3,7 @@ package com.fgr.adik.component.text_field
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,7 +24,10 @@ fun TextFieldPrimary(
     onValueChange: (String) -> Unit = {},
     enabled: Boolean = true,
     error: Boolean = false,
-    errorText: String = ""
+    errorText: String = "",
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    singleLine: Boolean = false,
+    maxLines: Int = 2,
 ) {
     TextFieldOutlinedBase(
         modifier = modifier,
@@ -49,7 +53,9 @@ fun TextFieldPrimary(
         } else {
             null
         },
-        maxLines = 2
+        maxLines = maxLines,
+        keyboardOptions = keyboardOptions,
+        singleLine = singleLine,
     )
 }
 

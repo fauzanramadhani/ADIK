@@ -54,7 +54,9 @@ fun EmailVerificationScreen(
     emailVerificationViewModel: EmailVerificationViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
-    if (emailVerificationViewModel.firebaseCurrentUser()?.isEmailVerified == true) {
+    if (emailVerificationViewModel.firebaseCurrentUser()?.isEmailVerified == true ||
+        emailVerificationViewModel.firebaseCurrentUser()?.providerData?.firstOrNull{it.providerId == "google.com"}?.isEmailVerified == true
+        ) {
         navHostController.navigateToTop(NavRoute.DashboardScreen)
     } else {
         var dialogState by rememberSaveable {

@@ -3,6 +3,7 @@ package com.fgr.adik.component.text_field
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,8 +32,11 @@ fun TextFieldPassword(
     enabled: Boolean = true,
     error: Boolean = false,
     errorText: String = "",
+    keyboardOptions: KeyboardOptions = KeyboardOptions(),
+    singleLine: Boolean = false,
+    maxLines: Int = 2,
     visibility: Boolean = false,
-    onVisibilityChange: () -> Unit = {}
+    onVisibilityChange: () -> Unit = {},
 ) {
     TextFieldOutlinedBase(
         modifier = modifier,
@@ -80,7 +84,9 @@ fun TextFieldPassword(
         } else {
             PasswordVisualTransformation()
         },
-        maxLines = 2
+        maxLines = maxLines,
+        singleLine = singleLine,
+        keyboardOptions = keyboardOptions
     )
 }
 
