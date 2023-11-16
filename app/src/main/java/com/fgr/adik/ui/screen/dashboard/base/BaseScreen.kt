@@ -111,7 +111,11 @@ fun BaseScreen(
     Scaffold(
         bottomBar = {
             NavigationBar(
-                containerColor = colorScheme.surface,
+                containerColor = if (currentTheme) {
+                    colorScheme.surface
+                } else {
+                    colorScheme.onPrimary
+                },
                 modifier = Modifier.drawWithContent {
                     drawContent()
                     drawRect(

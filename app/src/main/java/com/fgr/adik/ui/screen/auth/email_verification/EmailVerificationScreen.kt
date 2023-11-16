@@ -55,8 +55,8 @@ fun EmailVerificationScreen(
 ) {
     val context = LocalContext.current
     if (emailVerificationViewModel.firebaseCurrentUser()?.isEmailVerified == true ||
-        emailVerificationViewModel.firebaseCurrentUser()?.providerData?.firstOrNull{it.providerId == "google.com"}?.isEmailVerified == true
-        ) {
+        emailVerificationViewModel.firebaseCurrentUser()?.providerData?.firstOrNull { it.providerId == "google.com" }?.email != null
+    ) {
         navHostController.navigateToTop(NavRoute.DashboardScreen)
     } else {
         var dialogState by rememberSaveable {
@@ -98,6 +98,7 @@ fun EmailVerificationScreen(
                 is UiState.Loading -> {
                     loadingDialogState = true
                 }
+
                 is UiState.Success -> {
                     loadingDialogState = false
                     Toast(context, sendEmailState.data).long()
@@ -107,6 +108,7 @@ fun EmailVerificationScreen(
                     loadingDialogState = false
                     Toast(context, sendEmailState.errorMessage).long()
                 }
+
                 else -> {}
             }
         }

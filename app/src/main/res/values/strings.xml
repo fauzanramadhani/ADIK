@@ -68,9 +68,20 @@
     <!--
     Home Screen
     -->
-
+    <string name="screen_home_your_absence_today">Absen Anda Hari Ini</string>
     <!--
     Home Screen
+    -->
+
+    <!--
+    Edit Profile Information Screen
+    -->
+    <string name="screen_edit_profile_information_nav_title">Informasi Profil</string>
+    <string name="screen_edit_profile_information_title">Harap Lengkapi Informasi Profil Anda</string>
+    <string name="screen_edit_profile_whatsapp_number_label">Nomor Whatsapp</string>
+    <string name="screen_edit_profile_full_address_label">Alamat Lengkap</string>
+    <!--
+    Edit Profile Information Screen
     -->
 
     <!--
@@ -82,7 +93,13 @@
     <string name="supporting_text_invalid_email">Email anda tidak valid</string>
     <string name="supporting_text_less_than_12_password">Password minimal 12 karakter</string>
     <string name="supporting_text_invalid_password_confirmation">Konfirmasi sandi anda salah</string>
+    <string name="supporting_text_invalid_phone_number">Nomor telefon anda tidak valid, berikut contoh format yang benar: 082260012008</string>
     <string name="loading_dialog_text">Please Wait</string>
+    <string name="entry_hours">Jam Masuk:</string>
+    <string name="out_hours">Jam Keluar:</string>
+    <string name="statue">Status:</string>
+    <string name="access">Akses: %s</string>
+    <string name="division">Division: %s</string>
     <!--
     E-Build in Component
     -->
@@ -101,6 +118,8 @@
     <string name="refresh">Segarkan</string>
     <string name="out">Keluar</string>
     <string name="cancel">Batal</string>
+    <string name="name">Nama</string>
+    <string name="save">Simpan</string>
     <!--
     E-Word
     -->

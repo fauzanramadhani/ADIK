@@ -1,16 +1,34 @@
 package com.fgr.adik.ui.screen.dashboard.home
 
+import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.fgr.adik.R
+import com.fgr.adik.component.item.ItemHomeScreen
+import com.fgr.adik.component.navbar.NavBarPrimary
+import com.fgr.adik.component.z9_others.HorizontalDiv
+import com.fgr.adik.ui.theme.ADIKTheme
+import com.fgr.adik.utils.DatePattern
+import com.fgr.adik.utils.toFormatDateWithZone
+import com.fgr.adik.utils.toIso
 
 
 @Composable
@@ -19,14 +37,67 @@ fun HomeScreen(
     myPaddingValues: PaddingValues,
     contentRoute: MutableState<Int>
 ) {
-    Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxSize()
+    LazyColumn(
+        modifier = Modifier
+            .background(colorScheme.background)
+            .padding(myPaddingValues)
     ) {
-        Text(
-            text = "Home",
-            style = MaterialTheme.typography.headlineSmall
+        item {
+            NavBarPrimary() {
+                // TODO: On support button clicked
+            }
+        }
+        item {
+            Spacer(modifier = Modifier.padding(vertical = 6.dp))
+        }
+        item {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(colorScheme.surface)
+                    .padding(24.dp)
+            ) {
+                Text(
+                    text = stringResource(id = R.string.screen_home_your_absence_today),
+                    style = typography.titleSmall
+                )
+                Text(
+                    text = System.currentTimeMillis()
+                        .toIso()
+                        .toFormatDateWithZone(
+                            pattern = "${DatePattern.DAY} ${DatePattern.MONTH} ${DatePattern.YEAR}"
+                        ),
+                    style = typography.bodySmall
+                )
+            }
+        }
+        items(1) {
+            Column {
+                HorizontalDiv()
+                val url =
+                    "https://online.visual-paradigm.com/repository/images/24c5981d-4a75-4080-b617-d77a65aa4a1f/logos-design/furniture-logo-designed-for-interior-design-company.png"
+                ItemHomeScreen(
+                    officeImageUrl = url,
+                    officeName = "PT. Kursi Terbang Perawan",
+                    entryTime = "08:00 - 09:00",
+                    outTime = "16:00 - 17:00",
+                    status = "Absen masuk dibuka",
+                )
+            }
+        }
+    }
+}
+
+@SuppressLint("UnrememberedMutableState")
+@Preview
+@Composable
+fun HomeScreenPreview() {
+    ADIKTheme {
+        HomeScreen(
+            navHostController = rememberNavController(),
+            myPaddingValues = PaddingValues(bottom = 48.dp),
+            contentRoute = mutableIntStateOf(0)
         )
     }
 }
