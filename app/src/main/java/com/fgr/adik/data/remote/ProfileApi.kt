@@ -11,7 +11,6 @@ interface ProfileApi {
     @FormUrlEncoded
     @POST("/user/profile")
     suspend fun saveProfile(
-        @Field("imageProfileUrl") imageProfileUrl: String,
         @Field("name") name: String,
         @Field("phoneNumber") phoneNumber: String,
         @Field("address") address: String,

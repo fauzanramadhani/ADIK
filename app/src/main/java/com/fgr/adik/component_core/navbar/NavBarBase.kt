@@ -27,7 +27,7 @@ fun NavBarBase(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .fillMaxWidth()
-            .height(96.dp)
+            .height(72.dp)
             .background(color = backgroundColor)
             .padding(paddingValues)
     ) {

@@ -28,8 +28,6 @@ fun createRetrofit(
         .build()
 
     return Retrofit.Builder()
-        // Errornya disini
-        // java.lang.IllegalArgumentException: Expected URL scheme 'http' or 'https' but no scheme was found for
         .baseUrl(baseUrl)
         .addConverterFactory(GsonConverterFactory.create())
         .client(createOkHttp)
