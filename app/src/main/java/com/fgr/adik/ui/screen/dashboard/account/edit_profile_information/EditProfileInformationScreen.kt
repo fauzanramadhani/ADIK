@@ -1,5 +1,6 @@
 package com.fgr.adik.ui.screen.dashboard.account.edit_profile_information
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -33,23 +34,34 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.fgr.adik.R
 import com.fgr.adik.component.button.ButtonPrimary
+import com.fgr.adik.component.dialog.DialogAlert
 import com.fgr.adik.component.navbar.NavBarSecondary
 import com.fgr.adik.component.text_field.TextFieldPrimary
+import com.fgr.adik.component.z9_others.DialogLoading
+import com.fgr.adik.navigation.NavRoute
 import com.fgr.adik.ui.theme.ADIKTheme
+import com.fgr.adik.utils.Toast
+import com.fgr.adik.utils.UiState
 import com.fgr.adik.utils.isPhoneNumberInvalid
+import com.fgr.adik.utils.navigateTo
+import com.fgr.adik.utils.navigateToTop
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun EditProfileInformationScreen(
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    editInformationScreenViewModel: EditInformationScreenViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusController = LocalFocusManager.current
+
     var stateNameText by rememberSaveable {
         mutableStateOf("")
     }
@@ -77,13 +89,82 @@ fun EditProfileInformationScreen(
     var stateAddressErrorText by rememberSaveable {
         mutableStateOf("")
     }
+    var hasProfile by rememberSaveable {
+        mutableStateOf(false)
+    }
+    var dialogState by rememberSaveable {
+        mutableStateOf(false)
+    }
+    var loadingState by rememberSaveable {
+        mutableStateOf(false)
+    }
 
+    if (loadingState) {
+        DialogLoading()
+    }
+
+    if (dialogState) {
+        DialogAlert(
+            title = stringResource(id = R.string.screen_email_title_dialog_alert_logout),
+            message = stringResource(id = R.string.screen_email_message_dialog_alert_logout),
+            confirmText = stringResource(id = R.string.out),
+            dismissText = stringResource(id = R.string.cancel),
+            onConfirm = {
+                loadingState = true
+                editInformationScreenViewModel.logout {
+                    loadingState = false
+                    dialogState = false
+                    navHostController.navigateToTop(NavRoute.OnBoardingScreen)
+                }
+            },
+            onDismiss = {
+                dialogState = false
+            }
+        )
+    }
+
+
+    when (
+        val profileDataState =
+        editInformationScreenViewModel.getProfileState.collectAsStateWithLifecycle().value
+    ) {
+        UiState.Empty -> {
+            stateNameText = ""
+            stateAddressText = ""
+            stateWhatsAppNumberText = ""
+            loadingState = false
+            hasProfile = false
+        }
+        is UiState.Error -> {
+            loadingState = false
+            Toast(context, profileDataState.errorMessage).long()
+        }
+        UiState.Loading -> {
+            loadingState = true
+        }
+        is UiState.Success -> {
+            with(profileDataState.data) {
+                if (name != null && address != null && phoneNumber != null) {
+                    stateNameText = name
+                    stateAddressText = address
+                    stateWhatsAppNumberText = "0$phoneNumber"
+                    hasProfile = true
+                }
+            }
+            loadingState = false
+        }
+    }
+    BackHandler {
+        if (hasProfile) navHostController.popBackStack()
+        else dialogState = true
+    }
     Scaffold(
         topBar = {
             NavBarSecondary(
                 title = stringResource(id = R.string.screen_edit_profile_information_nav_title),
                 onBackButtonClick = {
-                    navHostController.navigateUp()
+                    if (hasProfile) navHostController.popBackStack()
+                    else dialogState = true
                 }
             )
         }
@@ -198,7 +279,18 @@ fun EditProfileInformationScreen(
                         }
 
                         else -> {
-                            // TODO
+                            editInformationScreenViewModel.saveProfile(
+                                name = stateNameText,
+                                phoneNumber = stateWhatsAppNumberText.toLong().toString(),
+                                address = stateAddressText,
+                            ) { success, message ->
+                                if (success) {
+                                    Toast(context, message).short()
+                                    navHostController.navigateTo(NavRoute.DashboardScreen)
+                                } else {
+                                    Toast(context, message).long()
+                                }
+                            }
                         }
                     }
                 }

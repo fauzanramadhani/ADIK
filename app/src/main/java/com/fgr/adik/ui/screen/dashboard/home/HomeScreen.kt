@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.fgr.adik.R
@@ -35,8 +36,10 @@ import com.fgr.adik.utils.toIso
 fun HomeScreen(
     navHostController: NavHostController,
     myPaddingValues: PaddingValues,
-    contentRoute: MutableState<Int>
+    contentRoute: MutableState<Int>,
+    homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
 ) {
+
     LazyColumn(
         modifier = Modifier
             .background(colorScheme.background)
@@ -76,7 +79,7 @@ fun HomeScreen(
             Column {
                 HorizontalDiv()
                 val url =
-                    "https://online.visual-paradigm.com/repository/images/24c5981d-4a75-4080-b617-d77a65aa4a1f/logos-design/furniture-logo-designed-for-interior-design-company.png"
+                    "https://www.freepnglogos.com/uploads/company-logo-png/company-logo-transparent-png-19.png"
                 ItemHomeScreen(
                     officeImageUrl = url,
                     officeName = "PT. Kursi Terbang Perawan",

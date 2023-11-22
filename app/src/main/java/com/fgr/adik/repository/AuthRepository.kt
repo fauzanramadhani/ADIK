@@ -2,7 +2,6 @@ package com.fgr.adik.repository
 
 import android.app.Application
 import android.content.Intent
-import android.util.Log
 import com.fgr.adik.BuildConfig
 import com.fgr.adik.R
 import com.fgr.adik.data.remote.AuthApi
@@ -15,6 +14,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.Firebase
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
@@ -56,13 +56,13 @@ class AuthRepository @Inject constructor(
     fun loginWithEmail(
         email: String,
         password: String,
-        onComplete: (success: Boolean, message: String) -> Unit
+        onComplete: (success: Boolean, data: FirebaseUser?, message: String) -> Unit
     ) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener {
-                onComplete(true, appContext.getString(R.string.screen_login_successfully))
+                onComplete(true, it.user, appContext.getString(R.string.screen_login_successfully))
             }.addOnFailureListener {
-                onComplete(false, appContext.getString(R.string.screen_login_failure))
+                onComplete(false, null, appContext.getString(R.string.screen_login_failure))
             }
     }
 
@@ -70,7 +70,7 @@ class AuthRepository @Inject constructor(
 
     fun handleGoogleSignInResult(
         data: Intent,
-        onComplete: (success: Boolean, firebaseUid: FirebaseUser?, message: String?) -> Unit
+        onComplete: (success: Boolean, data: FirebaseUser?, message: String?) -> Unit
     ) {
         val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
         try {
@@ -123,15 +123,13 @@ class AuthRepository @Inject constructor(
                 )
                 onComplete(
                     true,
-                    appContext.getString(R.string.screen_on_boarding_google_login_successfully)
+                    appContext.getString(R.string.screen_login_email_login_successfully)
                 )
             } else {
                 onComplete(false, result.body()?.message.toString())
-                Log.e("AuthRepo", "Result Failure: ${result.message()}")
             }
         } catch (e: Exception) {
-            onComplete(false, e.message.toString())
-            Log.e("AuthRepo", "Result Error: ${e.message}")
+            onComplete(false, appContext.getString(R.string.server_failed))
         }
     }
 
@@ -156,9 +154,39 @@ class AuthRepository @Inject constructor(
         }
     }
 
-    fun logout() {
+    fun changeChangePassword(
+        oldPassword: String,
+        newPassword: String,
+        callback: (success: Boolean, message: String) -> Unit,
+    ) {
+        try {
+            if (auth.currentUser == null) {
+                callback(false, appContext.getString(R.string.screen_change_password_account_not_found))
+            } else {
+                val credential = EmailAuthProvider
+                    .getCredential(auth.currentUser!!.email ?: "", oldPassword)
+                auth.currentUser!!.reauthenticate(credential)
+                    .addOnSuccessListener {
+                        auth.currentUser!!.updatePassword(
+                            newPassword
+                        ).addOnSuccessListener {
+                            callback(true, appContext.getString(R.string.screen_change_password_successfully_update_password))
+                        }.addOnFailureListener {
+                            callback(false, it.message.toString())
+                        }
+                    }.addOnFailureListener {
+                        callback(false, appContext.getString(R.string.screen_change_password_old_password_not_match))
+                    }
+            }
+        } catch (e: Exception) {
+            callback(false, e.message.toString())
+        }
+    }
+
+    fun logout(callback: () -> Unit) {
         auth.signOut()
         googleSignInClient.signOut()
         sharedPreferencesManager.delete(USER_MONGO_ID_KEY)
+        callback.invoke()
     }
 }

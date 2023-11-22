@@ -19,19 +19,33 @@ fun BaseCircleIconBox(
     modifier: Modifier = Modifier,
     enabled: Boolean = false,
     iconBackgroundColor: Color = colorScheme.primary,
-    onClick: () -> Unit = {},
+    onClick: (() -> Unit)? = null,
     icon: @Composable BoxScope.() -> Unit = {}
 ) {
-    Box(
-        modifier = modifier
-            .clip(CircleShape)
-            .background(
-                color = iconBackgroundColor
-            )
-            .size(28.dp)
-            .clickable(enabled = enabled, onClick = onClick)
-            .padding(6.dp)
-    ) {
-        icon()
+    if (onClick != null) {
+        Box(
+            modifier = modifier
+                .clip(CircleShape)
+                .background(
+                    color = iconBackgroundColor
+                )
+                .size(28.dp)
+                .clickable(enabled = enabled, onClick = onClick)
+                .padding(6.dp)
+        ) {
+            icon()
+        }
+    } else {
+        Box(
+            modifier = modifier
+                .clip(CircleShape)
+                .background(
+                    color = iconBackgroundColor
+                )
+                .size(28.dp)
+                .padding(6.dp)
+        ) {
+            icon()
+        }
     }
 }

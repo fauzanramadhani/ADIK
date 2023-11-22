@@ -9,6 +9,8 @@ import com.fgr.adik.ui.screen.auth.login.LoginScreen
 import com.fgr.adik.ui.screen.auth.on_boarding.OnBoardingScreen
 import com.fgr.adik.ui.screen.auth.register.RegisterScreen
 import com.fgr.adik.ui.screen.auth.reset_password.ForgotPasswordScreen
+import com.fgr.adik.ui.screen.dashboard.account.change_password.ChangePasswordScreen
+import com.fgr.adik.ui.screen.dashboard.account.edit_profile_information.EditProfileInformationScreen
 import com.fgr.adik.ui.screen.dashboard.base.BaseScreen
 
 @Composable
@@ -49,6 +51,16 @@ fun NavGraph(
             route = NavRoute.DashboardScreen.route,
         ) {
             BaseScreen(navHostController = navHostController)
+        }
+        composable(
+            route = NavRoute.EditProfileInformationScreen.route
+        ) {
+            EditProfileInformationScreen(navHostController = navHostController)
+        }
+        composable(
+            route = NavRoute.ChangePasswordScreen.route
+        ) {
+            ChangePasswordScreen(navHostController = navHostController)
         }
     }
 }

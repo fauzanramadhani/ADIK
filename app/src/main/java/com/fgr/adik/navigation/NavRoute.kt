@@ -14,4 +14,6 @@ sealed class NavRoute (val route: String) {
     object ForgotPasswordScreen: NavRoute("forgot_password_screen")
     object EmailVerificationScreen: NavRoute("email_verification_screen")
     object DashboardScreen: NavRoute ("base_screen")
+    object EditProfileInformationScreen: NavRoute ("edit_profile_information_screen")
+    object ChangePasswordScreen: NavRoute ("change_password_screen")
 }
