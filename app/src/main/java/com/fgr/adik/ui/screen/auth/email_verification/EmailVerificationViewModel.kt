@@ -48,9 +48,7 @@ class EmailVerificationViewModel
         }
     }
 
-    fun logout() {
-        authRepository.logout()
-    }
+    fun logout(callback: () -> Unit) = authRepository.logout(callback)
 
     override fun onCleared() {
         super.onCleared()

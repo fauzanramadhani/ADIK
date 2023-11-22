@@ -22,6 +22,7 @@
     <string name="screen_login_reset_password">Reset Password</string>
     <string name="screen_login_failure">Email atau pasword anda salah</string>
     <string name="screen_login_successfully">Berhasil masuk</string>
+    <string name="screen_login_email_login_successfully">Berhasil masuk menggunakan email</string>
     <!--
     Login Screen
     -->
@@ -73,6 +74,18 @@
     Home Screen
     -->
 
+
+    <!--
+    Account Screen
+    -->
+    <string name="screen_account_screen_furlough_request_button">Pengajuan Gabung Kantor</string>
+    <string name="screen_account_screen_edit_profile_information_button">Ubah Informasi Profil</string>
+    <string name="screen_account_screen_change_password_button">Ubah Sandi</string>
+    <!--
+    End Account Screen
+    -->
+
+
     <!--
     Edit Profile Information Screen
     -->
@@ -80,8 +93,24 @@
     <string name="screen_edit_profile_information_title">Harap Lengkapi Informasi Profil Anda</string>
     <string name="screen_edit_profile_whatsapp_number_label">Nomor Whatsapp</string>
     <string name="screen_edit_profile_full_address_label">Alamat Lengkap</string>
+    <string name="screen_edit_profile_saved_successfully">Berhasil menyimpan informasi profil</string>
     <!--
     Edit Profile Information Screen
+    -->
+
+    <!--
+    Change Password Screen
+    -->
+    <string name="screen_change_password_nav_title">Ubah Sandi</string>
+    <string name="screen_change_password_old_password">Password Lama</string>
+    <string name="screen_change_password_new_password">Password Baru</string>
+    <string name="screen_change_password_new_password_confirmation">Konfirmasi Password Baru</string>
+    <string name="screen_change_password_account_not_found">Akun Anda tidak ditemukan, silahkan login ulang.</string>
+    <string name="screen_change_password_successfully_update_password">Password Anda berhasil diperbarui</string>
+    <string name="screen_change_password_old_password_not_match">Password lama Anda salah</string>
+
+    <!--
+    End Change Password Screen
     -->
 
     <!--
@@ -100,6 +129,7 @@
     <string name="statue">Status:</string>
     <string name="access">Akses: %s</string>
     <string name="division">Division: %s</string>
+    <string name="error_message_and_action_title">Ups... Sepertinya Terjadi Kesalahan</string>
     <!--
     E-Build in Component
     -->
@@ -120,8 +150,18 @@
     <string name="cancel">Batal</string>
     <string name="name">Nama</string>
     <string name="save">Simpan</string>
+    <string name="exit">Keluar</string>
+    <string name="profile">Profil</string>
     <!--
     E-Word
+    -->
+
+    <!--
+    Remote
+    -->
+    <string name="server_failed">Server sedang maintenance, silahkan coba lagi nanti.</string>
+    <!--
+    Remote
     -->
 
 </resources>

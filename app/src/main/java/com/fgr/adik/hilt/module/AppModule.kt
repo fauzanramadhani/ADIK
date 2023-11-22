@@ -10,28 +10,29 @@ import com.fgr.adik.repository.ProfileRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.scopes.ViewModelScoped
 
 @Module
-@InstallIn(SingletonComponent::class)
+@InstallIn(ViewModelComponent::class)
 object AppModule {
     @Provides
-    @Singleton
+    @ViewModelScoped
     fun provideAuthRepository(
         appContext: Application,
         @BearerToken token: String,
-    ) = AuthRepository (
+    ) = AuthRepository(
         appContext = appContext,
         authApi = createRetrofit(headerAuthorization = token).create(AuthApi::class.java)
     )
+
     @Provides
-    @Singleton
+    @ViewModelScoped
     fun provideProfileRepository(
         appContext: Application,
         @BearerToken token: String,
-    ) = ProfileRepository (
+    ) = ProfileRepository(
         appContext = appContext,
-        profileApi = createRetrofit(headerAuthorization = token).create(ProfileApi::class.java)
+        profileApi = createRetrofit(headerAuthorization = token).create(ProfileApi::class.java),
     )
 }

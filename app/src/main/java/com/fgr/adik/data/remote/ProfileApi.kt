@@ -5,15 +5,19 @@ import com.fgr.adik.data.response.ProfileResponse
 import retrofit2.Response
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.http.GET
+import retrofit2.http.PUT
 
 interface ProfileApi {
     @FormUrlEncoded
-    @POST("/user/profile")
+    @PUT("/user/profile")
     suspend fun saveProfile(
-        @Field("imageProfileUrl") imageProfileUrl: String,
         @Field("name") name: String,
         @Field("phoneNumber") phoneNumber: String,
         @Field("address") address: String,
-    ) : Response<BaseResponse<ProfileResponse>>
+    ): Response<BaseResponse<Any?>>
+
+    @GET("/user/profile")
+    suspend fun getProfile()
+            : Response<BaseResponse<ProfileResponse>>
 }

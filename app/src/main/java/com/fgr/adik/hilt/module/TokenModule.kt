@@ -7,14 +7,14 @@ import com.fgr.adik.hilt.qualifier.BearerToken
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.scopes.ViewModelScoped
 
 @Module
-@InstallIn(SingletonComponent::class)
+@InstallIn(ViewModelComponent::class)
 object TokenModule {
     @Provides
-    @Singleton
+    @ViewModelScoped
     @BearerToken
     fun provideBearerToken(appContext: Application): String {
         return SharedPreferencesManager(appContext).getString(USER_MONGO_ID_KEY)

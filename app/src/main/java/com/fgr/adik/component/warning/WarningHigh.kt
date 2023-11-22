@@ -1,5 +1,6 @@
 package com.fgr.adik.component.warning
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
@@ -19,6 +20,9 @@ import com.fgr.adik.ui.theme.ADIKTheme
 fun WarningHigh(
     modifier: Modifier = Modifier,
     message: String = "",
+    actionButtonText: String = "",
+    actionButtonEnabled: Boolean = false,
+    onClickActionButton: (() -> Unit)? = null,
 ) {
     Box(
         modifier = modifier
@@ -29,13 +33,27 @@ fun WarningHigh(
             Icon(
                 painter = painterResource(id = R.drawable.ic_warning),
                 contentDescription = null,
-                tint = colorScheme.error
+                tint = colorScheme.error,
+                modifier = Modifier
+                    .weight(0.2f)
             )
             Text(
                 text = message,
                 style = MaterialTheme.typography.bodySmall,
-                color = colorScheme.onErrorContainer
+                color = colorScheme.onErrorContainer,
+                modifier = Modifier
+                    .weight(1f)
             )
+            if (actionButtonEnabled && onClickActionButton != null) {
+                Text(
+                    text = actionButtonText,
+                    style = MaterialTheme.typography.labelMedium,
+                    color = colorScheme.onSurface,
+                    modifier = Modifier
+                        .weight(0.3f)
+                        .clickable(onClick = onClickActionButton)
+                )
+            }
         }
     }
 }

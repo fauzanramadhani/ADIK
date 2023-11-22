@@ -21,18 +21,18 @@ class RegisterViewModel
         authRepository.registerWithEmail(
             email = email,
             password = password,
-            onComplete = { tak1Success, task2Data, tak1Message ->
-                if (tak1Success) {
+            onComplete = { success, data, message ->
+                if (success) {
                     viewModelScope.launch {
                         authRepository.recordLogin(
-                            email = task2Data?.email ?: "",
-                            firebaseUid = task2Data?.uid ?: "",
+                            email = data?.email ?: "",
+                            firebaseUid = data?.uid ?: "",
                             loginMethod = "email",
                             onComplete = onComplete
                         )
                     }
                 } else {
-                    onComplete(false, tak1Message)
+                    onComplete(false, message)
                 }
             }
         )

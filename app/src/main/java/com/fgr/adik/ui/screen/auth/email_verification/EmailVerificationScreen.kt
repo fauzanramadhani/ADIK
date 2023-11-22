@@ -57,8 +57,15 @@ fun EmailVerificationScreen(
     if (emailVerificationViewModel.firebaseCurrentUser()?.isEmailVerified == true ||
         emailVerificationViewModel.firebaseCurrentUser()?.providerData?.firstOrNull { it.providerId == "google.com" }?.email != null
     ) {
-        navHostController.navigateToTop(NavRoute.DashboardScreen)
+        navHostController.navigate(NavRoute.DashboardScreen.route)
     } else {
+        var loadingState by rememberSaveable {
+            mutableStateOf(false)
+        }
+
+        if (loadingState) {
+            DialogLoading()
+        }
         var dialogState by rememberSaveable {
             mutableStateOf(false)
         }
@@ -69,9 +76,12 @@ fun EmailVerificationScreen(
                 confirmText = stringResource(id = R.string.out),
                 dismissText = stringResource(id = R.string.cancel),
                 onConfirm = {
-                    emailVerificationViewModel.logout()
-                    navHostController.navigateToTop(NavRoute.OnBoardingScreen)
-                    dialogState = false
+                    loadingState = true
+                    emailVerificationViewModel.logout {
+                        dialogState = false
+                        loadingState = false
+                        navHostController.navigateToTop(NavRoute.OnBoardingScreen)
+                    }
                 },
                 onDismiss = {
                     dialogState = false

@@ -12,7 +12,7 @@ interface AuthApi {
     @POST("/user/auth")
     suspend fun recordLogin(
         @Field("email") email: String,
-        @Field("loginMethods") loginMethods: String,
+        @Field("loginMethod") loginMethods: String,
         @Field("firebaseUid") firebaseUid: String,
     ) : Response<BaseResponse<AuthResponse>>
 }

@@ -10,6 +10,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
@@ -18,10 +19,12 @@ import com.fgr.adik.component.loading.LoadingCircleAnimation
 
 @Composable
 fun LoadImageUrl(
-    url: String = "",
     modifier: Modifier = Modifier,
+    url: String = "",
 ) {
-    val painter = rememberAsyncImagePainter(url)
+    val painter = rememberAsyncImagePainter(
+        model = url,
+    )
     var stateImageLoad by rememberSaveable {
         mutableStateOf(false)
     }
@@ -65,6 +68,7 @@ fun LoadImageUrl(
                     painter
                 },
                 contentDescription = null,
+                contentScale = ContentScale.Crop,
                 modifier = modifier
                     .align(Alignment.Center)
             )
