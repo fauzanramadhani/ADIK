@@ -50,7 +50,7 @@ fun WarningHigh(
                     style = MaterialTheme.typography.labelMedium,
                     color = colorScheme.onSurface,
                     modifier = Modifier
-                        .weight(0.3f)
+                        .weight(0.4f)
                         .clickable(onClick = onClickActionButton)
                 )
             }

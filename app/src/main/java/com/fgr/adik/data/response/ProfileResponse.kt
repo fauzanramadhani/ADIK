@@ -5,10 +5,10 @@ import com.google.gson.annotations.SerializedName
 data class ProfileResponse(
 
     @field:SerializedName("email")
-    val email: String,
+    val email: String? = null,
 
     @field:SerializedName("imageProfileUrl")
-    val imageProfileUrl: String,
+    val imageProfileUrl: String? = null,
 
     @field:SerializedName("name")
     val name: String? = null,
@@ -20,5 +20,5 @@ data class ProfileResponse(
     val address: String? = null,
 
     @field:SerializedName("createdAt")
-    val createdAt: String,
+    val createdAt: String? = null,
 )

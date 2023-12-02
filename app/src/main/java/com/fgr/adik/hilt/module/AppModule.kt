@@ -3,9 +3,11 @@ package com.fgr.adik.hilt.module
 import android.app.Application
 import com.fgr.adik.data.config.createRetrofit
 import com.fgr.adik.data.remote.AuthApi
+import com.fgr.adik.data.remote.OfficeApi
 import com.fgr.adik.data.remote.ProfileApi
 import com.fgr.adik.hilt.qualifier.BearerToken
 import com.fgr.adik.repository.AuthRepository
+import com.fgr.adik.repository.OfficeRepository
 import com.fgr.adik.repository.ProfileRepository
 import dagger.Module
 import dagger.Provides
@@ -34,5 +36,15 @@ object AppModule {
     ) = ProfileRepository(
         appContext = appContext,
         profileApi = createRetrofit(headerAuthorization = token).create(ProfileApi::class.java),
+    )
+
+    @Provides
+    @ViewModelScoped
+    fun provideOfficeRepository(
+        appContext: Application,
+        @BearerToken token: String,
+    ) = OfficeRepository(
+        appContext = appContext,
+        officeApi = createRetrofit(headerAuthorization = token).create(OfficeApi::class.java),
     )
 }

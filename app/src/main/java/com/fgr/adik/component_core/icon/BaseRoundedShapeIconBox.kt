@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,6 +19,7 @@ import androidx.compose.ui.unit.dp
 fun BaseRoundedShapeIconBox(
     modifier: Modifier = Modifier,
     iconBackgroundColor: Color = colorScheme.primary,
+    paddingBackground: PaddingValues = PaddingValues(6.dp),
     onClick: (() -> Unit)? = null,
     icon: @Composable BoxScope.() -> Unit = {}
 ) {
@@ -30,7 +32,7 @@ fun BaseRoundedShapeIconBox(
                 )
                 .size(28.dp)
                 .clickable(onClick = onClick)
-                .padding(6.dp)
+                .padding(paddingBackground)
         ) {
             icon()
         }
@@ -42,7 +44,7 @@ fun BaseRoundedShapeIconBox(
                     color = iconBackgroundColor
                 )
                 .size(28.dp)
-                .padding(6.dp)
+                .padding(paddingBackground)
         ) {
             icon()
         }

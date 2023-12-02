@@ -35,6 +35,7 @@ fun TextFieldOutlinedBase(
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     singleLine: Boolean = false,
     maxLines: Int = Int.MAX_VALUE,
+    readOnly: Boolean = false,
 ) {
     val focus = LocalFocusManager.current
     OutlinedTextField(
@@ -57,10 +58,13 @@ fun TextFieldOutlinedBase(
         supportingText = supportingText,
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions,
-        keyboardActions = KeyboardActions(onDone = {
-            focus.clearFocus()
-        }),
+        keyboardActions = KeyboardActions(
+            onDone = {
+                focus.clearFocus()
+            }
+        ),
         singleLine = singleLine,
-        maxLines = maxLines
+        maxLines = maxLines,
+        readOnly = readOnly,
     )
 }

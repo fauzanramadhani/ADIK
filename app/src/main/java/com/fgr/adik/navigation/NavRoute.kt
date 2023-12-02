@@ -16,4 +16,19 @@ sealed class NavRoute (val route: String) {
     object DashboardScreen: NavRoute ("base_screen")
     object EditProfileInformationScreen: NavRoute ("edit_profile_information_screen")
     object ChangePasswordScreen: NavRoute ("change_password_screen")
+    object CreateOfficeScreen: NavRoute ("create_office_screen")
+    object DashboardOfficeScreen : NavRoute(route = "dashboard_office_screen/{$A_ARGS_KEY}") {
+        fun navigateWithId(
+            officeId: String
+        ): String {
+            return "dashboard_office_screen/$officeId"
+        }
+    }
+    object ExitOfficeScreen : NavRoute(route = "exit_office_screen/{$A_ARGS_KEY}") {
+        fun navigateWithId(
+            officeId: String
+        ): String {
+            return "exit_office_screen/$officeId"
+        }
+    }
 }

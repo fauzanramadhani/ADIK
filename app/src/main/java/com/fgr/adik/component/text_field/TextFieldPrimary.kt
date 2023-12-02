@@ -27,7 +27,7 @@ fun TextFieldPrimary(
     errorText: String = "",
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     singleLine: Boolean = false,
-    maxLines: Int = 2,
+    maxLines: Int = Int.MAX_VALUE,
 ) {
     TextFieldOutlinedBase(
         modifier = modifier,
