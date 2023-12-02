@@ -243,7 +243,7 @@ fun EditProfileInformationScreen(
                 label = stringResource(id = R.string.screen_edit_profile_full_address_label),
                 value = stateAddressText,
                 keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Next,
+                    imeAction = ImeAction.Done,
                     keyboardType = KeyboardType.Text
                 ),
                 onValueChange = { value ->

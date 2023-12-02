@@ -97,7 +97,7 @@ fun BaseScreen(
                     if (hasProfile.errorMessage.equals("User not found", true)) {
                         loadingState = true
                         baseScreenViewModel.logout {
-                            loadingState = true
+                            loadingState = false
                             navHostController.navigateToTop(NavRoute.OnBoardingScreen)
                         }
 
@@ -248,6 +248,7 @@ fun BaseScreen(
 private fun getIndexFromDestination(route: String?): Int {
     return when (route) {
         // Set the index position based on Back Stack Entry
+        NavRoute.DashboardOfficeScreen.route -> 1
         NavRoute.EditProfileInformationScreen.route -> 2
         else -> 0
     }

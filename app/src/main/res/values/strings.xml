@@ -159,7 +159,8 @@
     <!--
     Remote
     -->
-    <string name="server_failed">Server sedang maintenance, silahkan coba lagi nanti.</string>
+    <string name="server_failed">Server sedang penuh atau maintenance, silahkan coba lagi nanti.</string>
+    <string name="connection_failed">Koneksi gagal, silahkan coba lagi.</string>
     <!--
     Remote
     -->

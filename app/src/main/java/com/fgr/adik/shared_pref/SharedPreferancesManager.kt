@@ -3,7 +3,7 @@ package com.fgr.adik.shared_pref
 import android.content.Context
 import android.content.SharedPreferences
 
-class SharedPreferencesManager(private val context: Context) {
+class SharedPreferencesManager(context: Context) {
     private val sharedPreferences: SharedPreferences =
         context.getSharedPreferences(
         SHARED_ROOT_PREF_KEY,

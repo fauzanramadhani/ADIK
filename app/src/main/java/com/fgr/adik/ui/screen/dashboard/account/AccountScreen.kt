@@ -1,6 +1,8 @@
 package com.fgr.adik.ui.screen.dashboard.account
 
 import android.annotation.SuppressLint
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,7 +12,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material3.Icon
@@ -18,10 +22,12 @@ import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -38,7 +44,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.fgr.adik.R
-import com.fgr.adik.component.button.ButtonTextIcon
+import com.fgr.adik.component.button.ButtonTextIconLarge
 import com.fgr.adik.component.dialog.DialogAlert
 import com.fgr.adik.component.navbar.NavBarPrimary
 import com.fgr.adik.component.z9_others.DialogLoading
@@ -49,6 +55,7 @@ import com.fgr.adik.component_core.icon.BaseCircleIconBox
 import com.fgr.adik.data.response.ProfileResponse
 import com.fgr.adik.navigation.NavRoute
 import com.fgr.adik.ui.theme.ADIKTheme
+import com.fgr.adik.utils.Toast
 import com.fgr.adik.utils.UiState
 import com.fgr.adik.utils.navigateTo
 import com.fgr.adik.utils.navigateToTop
@@ -61,29 +68,31 @@ fun AccountScreen(
     accountScreenViewModel: AccountScreenViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
+    val pickImageLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            if (uri != null) {
+                // Image selected successfully from gallery, proceed to sending to API
+                accountScreenViewModel.uploadImageProfile(
+                    uri = uri,
+                )
+            }
+        }
     var profileData by remember {
-        mutableStateOf<ProfileResponse?>(null)
+        mutableStateOf(ProfileResponse())
     }
-    var getProfileLoadingState by rememberSaveable {
+    var errorState by rememberSaveable {
         mutableStateOf(false)
     }
-    var getProfileErrorState by rememberSaveable {
-        mutableStateOf(false)
-    }
-    var getProfileErrorText by rememberSaveable {
+    var errorText by rememberSaveable {
         mutableStateOf("")
-    }
-
-    if (getProfileLoadingState) {
-        DialogLoading()
     }
     var dialogAlertLogoutState by rememberSaveable {
         mutableStateOf(false)
     }
-    var loadingState by rememberSaveable {
-        mutableStateOf(false)
+    val loadingState = remember {
+        mutableStateListOf(false, false)
     }
-    if (loadingState) {
+    if (loadingState[0] || loadingState[1]) {
         DialogLoading()
     }
     if (dialogAlertLogoutState) {
@@ -93,9 +102,9 @@ fun AccountScreen(
             confirmText = stringResource(id = R.string.out),
             dismissText = stringResource(id = R.string.cancel),
             onConfirm = {
-                loadingState = true
+                loadingState[0] = true
                 accountScreenViewModel.logout {
-                    loadingState = false
+                    loadingState[0] = false
                     dialogAlertLogoutState = false
                     navHostController.navigateToTop(NavRoute.OnBoardingScreen)
                 }
@@ -107,25 +116,52 @@ fun AccountScreen(
     }
     when (val getProfileState = accountScreenViewModel.getProfileState.collectAsState().value) {
         UiState.Empty -> {
-            getProfileLoadingState = false
-            getProfileErrorState = false
+            loadingState[0] = false
+            errorState = false
         }
 
         is UiState.Error -> {
-            getProfileLoadingState = false
-            getProfileErrorState = true
-            getProfileErrorText = getProfileState.errorMessage
+            loadingState[0] = false
+            errorState = true
+            errorText = getProfileState.errorMessage
         }
 
         UiState.Loading -> {
-            getProfileLoadingState = true
-            getProfileErrorState = false
+            loadingState[0] = true
+            errorState = false
         }
 
         is UiState.Success -> {
-            getProfileLoadingState = false
-            getProfileErrorState = false
+            loadingState[0] = false
+            errorState = false
             profileData = getProfileState.data
+        }
+    }
+
+    val uploadProfileState = accountScreenViewModel.uploadProfileImageState.collectAsState()
+    LaunchedEffect(uploadProfileState.value) {
+        when (val currentState = uploadProfileState.value) {
+            UiState.Empty -> {
+                loadingState[1] = false
+                errorState = false
+            }
+
+            is UiState.Error -> {
+                loadingState[1] = false
+                Toast(context, currentState.errorMessage).long()
+            }
+
+            UiState.Loading -> {
+                loadingState[1] = true
+                errorState = false
+            }
+
+            is UiState.Success -> {
+                loadingState[1] = false
+                errorState = false
+                accountScreenViewModel.getProfile()
+                Toast(context, "Berhasil mengubah gambar profile").long()
+            }
         }
     }
 
@@ -134,6 +170,8 @@ fun AccountScreen(
         modifier = Modifier
             .background(colorScheme.background)
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(bottom = myPaddingValues.calculateBottomPadding() + 24.dp)
     ) {
         NavBarPrimary() {
             // TODO: On support button clicked
@@ -151,11 +189,11 @@ fun AccountScreen(
                     .padding(24.dp)
             )
             HorizontalDiv()
-            if (getProfileErrorState) {
+            if (errorState) {
                 ErrorMessageAndAction(
                     modifier = Modifier
                         .padding(24.dp),
-                    message = getProfileErrorText,
+                    message = errorText,
                     actionButtonText = stringResource(id = R.string.refresh),
                 ) {
                     accountScreenViewModel.getProfile()
@@ -167,14 +205,12 @@ fun AccountScreen(
                         .padding(24.dp)
                 ) {
                     Box {
-                        profileData?.imageProfileUrl?.let {
-                            LoadImageUrl(
-                                url = it,
-                                modifier = Modifier
-                                    .size(90.dp)
-                                    .clip(CircleShape)
-                            )
-                        }
+                        LoadImageUrl(
+                            url = profileData.imageProfileUrl ?: "https://adik-api.neodigitalcreation.my.id/public/images/default/default.jpeg",
+                            modifier = Modifier
+                                .size(90.dp)
+                                .clip(CircleShape)
+                        )
                         Box(
                             modifier = Modifier
                                 .background(colorScheme.surface, shape = CircleShape)
@@ -184,7 +220,7 @@ fun AccountScreen(
                             BaseCircleIconBox(
                                 enabled = true,
                                 onClick = {
-                                    // TODO: On edit profile icon clicked
+                                    pickImageLauncher.launch("image/*")
                                 }
                             ) {
                                 Icon(
@@ -197,25 +233,21 @@ fun AccountScreen(
                             }
                         }
                     }
-                    profileData?.name?.let {
+                    Text(
+                        text = profileData.name ?: "",
+                        style = typography.bodyMedium,
+                        color = colorScheme.onSurface,
+                        modifier = Modifier
+                            .padding(top = 8.dp)
+                    )
+                    Text(
+                        text = profileData.email ?: "",
+                        style = typography.bodySmall,
+                        color = colorScheme.secondary,
+                    )
+                    if (!profileData.phoneNumber.isNullOrEmpty()) {
                         Text(
-                            text = it,
-                            style = typography.bodyMedium,
-                            color = colorScheme.onSurface,
-                            modifier = Modifier
-                                .padding(top = 8.dp)
-                        )
-                    }
-                    profileData?.email?.let {
-                        Text(
-                            text = it,
-                            style = typography.bodySmall,
-                            color = colorScheme.secondary,
-                        )
-                    }
-                    profileData?.phoneNumber?.let {
-                        Text(
-                            text = "0$it",
+                            text = "0${profileData.phoneNumber}",
                             style = typography.bodySmall,
                             color = colorScheme.secondary,
                         )
@@ -223,7 +255,7 @@ fun AccountScreen(
                 }
                 HorizontalDiv()
                 // Furlough request button
-                ButtonTextIcon(
+                ButtonTextIconLarge(
                     icon = {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_furlough),
@@ -240,7 +272,7 @@ fun AccountScreen(
                 }
                 HorizontalDiv()
                 // Edit profile information button
-                ButtonTextIcon(
+                ButtonTextIconLarge(
                     icon = {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_edit_profile_information),
@@ -258,7 +290,7 @@ fun AccountScreen(
                 HorizontalDiv()
                 // Change password button
                 if (!accountScreenViewModel.isLoginMethodGoogle) {
-                    ButtonTextIcon(
+                    ButtonTextIconLarge(
                         icon = {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_lock),
@@ -276,7 +308,7 @@ fun AccountScreen(
                     HorizontalDiv()
                 }
                 // Logout button
-                ButtonTextIcon(
+                ButtonTextIconLarge(
                     icon = {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_logout),

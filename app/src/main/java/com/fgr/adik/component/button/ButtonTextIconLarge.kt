@@ -2,6 +2,7 @@ package com.fgr.adik.component.button
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
@@ -15,12 +16,13 @@ import com.fgr.adik.component_core.icon.BaseRoundedShapeIconBox
 import com.fgr.adik.component_core.item.BaseItem
 
 @Composable
-fun ButtonTextIcon(
+fun ButtonTextIconLarge(
     modifier: Modifier = Modifier,
     icon: @Composable BoxScope.() -> Unit = {},
     title: String = "",
     body: String? = null,
     iconBackgroundColor: Color = colorScheme.primary,
+    paddingBackground: PaddingValues = PaddingValues(6.dp),
     textColor: Color = colorScheme.primary,
     arrowColor: Color = colorScheme.secondary,
     onContentClicked: () -> Unit = {},
@@ -33,11 +35,11 @@ fun ButtonTextIcon(
         Row(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
         ) {
             BaseRoundedShapeIconBox(
                 icon = icon,
-                iconBackgroundColor = iconBackgroundColor
+                iconBackgroundColor = iconBackgroundColor,
+                paddingBackground = paddingBackground
             )
             Text(
                 text = title,

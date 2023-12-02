@@ -2,8 +2,8 @@ package com.fgr.adik.ui.screen.dashboard.account.edit_profile_information
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.fgr.adik.data.listener.ApiListener1
 import com.fgr.adik.data.response.ProfileResponse
-import com.fgr.adik.repository.ApiListener
 import com.fgr.adik.repository.AuthRepository
 import com.fgr.adik.repository.ProfileRepository
 import com.fgr.adik.utils.UiState
@@ -48,13 +48,13 @@ class EditInformationScreenViewModel @Inject constructor(
     private fun getProfileInformation() {
         viewModelScope.launch {
             _getProfileState.tryEmit(UiState.Loading)
-            profileRepository.getProfile(object : ApiListener<ProfileResponse> {
-                override fun onSuccess(data: ProfileResponse) {
-                    _getProfileState.tryEmit(UiState.Success(data))
+            profileRepository.getProfile(object : ApiListener1<ProfileResponse> {
+                override fun onSuccess(data1: ProfileResponse) {
+                    _getProfileState.tryEmit(UiState.Success(data1))
                 }
 
-                override fun onFailure(message: String) {
-                    _getProfileState.tryEmit((UiState.Error(message)))
+                override fun onFailure(message1: String) {
+                    _getProfileState.tryEmit((UiState.Error(message1)))
                 }
 
             })
